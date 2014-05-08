@@ -1,0 +1,8 @@
+﻿{
+"client" : {
+"localip" : "192.168.1.113",
+"localport" : "1337",
+"remoteip" : "192.168.1.145,"
+"remoteport" : "1337"
+}
+}
