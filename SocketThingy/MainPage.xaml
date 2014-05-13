@@ -10,8 +10,8 @@
 
     <Grid x:Name="gridMainPage" RenderTransformOrigin="0.5,0.5">
 
-        
-        <Button x:Name="ExitButton" Content="EXIT" HorizontalAlignment="Left" Margin="570,672,0,0" VerticalAlignment="Top" Click="ExitButton_Click"/>
+
+        <Button x:Name="ExitButton" Content="EXIT" HorizontalAlignment="Left" Margin="405,404,0,0" VerticalAlignment="Top" Click="ExitButton_Click" Width="99" Height="38"/>
         <ScrollViewer HorizontalAlignment="Left" Height="630" Margin="672,80,0,0" VerticalAlignment="Top" Width="600" >
             <ListView x:Name="listviewTests" ItemsSource="{Binding kakecollection}" SelectionMode="None" BorderThickness="10" Height="630" Width="600" ItemContainerStyle="{StaticResource ListViewItemStyle1}">
                 <ListView.ItemTemplate>
@@ -45,12 +45,20 @@
                 </MenuFlyout>
             </Button.Flyout>
         </Button>
-        <Border Background="White" Margin="74,106,932,492">
-            <TextBlock x:Name="recievedMessage" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Width="339" Foreground="#FF0D0707" Height="150" VerticalAlignment="Top"/>
+        <Border Background="Black" Margin="74,106,932,492">
+            <Grid Background="#FFE5E5E5" Margin="330,120,-404,-172">
+                <TextBox HorizontalAlignment="Left" Margin="117,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="146"/>
+                <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Server IP address" VerticalAlignment="Top" Height="35" Width="253"/>
+            </Grid>
         </Border>
-        <TextBox x:Name="sendText" Background="White" HorizontalAlignment="Left" Margin="74,292,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="360" TextChanged="sendText_TextChanged"/>
-        <Button x:Name="Coonnect3" Content="Connect" HorizontalAlignment="Left" Margin="484,216,0,0" VerticalAlignment="Top" Click="Coonnect3_Click"/>
-        <Button x:Name="SendData" Content="SendData" HorizontalAlignment="Left" Margin="530,307,0,0" VerticalAlignment="Top" Click="SendData_Click"/>
+        <TextBox x:Name="usernameText" HorizontalAlignment="Left" Margin="200,358,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
+        <TextBlock HorizontalAlignment="Left" FontSize="22" Margin="58,358,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="103" RenderTransformOrigin="0.512,0.473">
+        	<Run Text="Username"/>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" FontSize="22" Margin="58,407,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Height="32" Width="103"/>
+        <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="405,355,0,0" VerticalAlignment="Top" Click="LoginButton_Click" Width="99" Height="38"/>
+        <PasswordBox x:Name="passwordText" HorizontalAlignment="Left" Margin="200,407,0,0" VerticalAlignment="Top" Width="180"/>
+        <Popup/>
 
 
     </Grid>

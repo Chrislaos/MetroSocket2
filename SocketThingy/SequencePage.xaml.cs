@@ -78,12 +78,16 @@ namespace SocketThingy
         }
         private void openSteps(string executionString)
         {
-            
+            _stepCollection.Clear();
             foreach (Execution exe in _executionCollection)
             {
                 if (exe.Description == executionString)
                 {
-                    _stepCollection = exe.CurrentSequence.StepList;
+                    foreach (Step step in exe.CurrentSequence.StepList)
+                    {
+                        _stepCollection.Add(step);
+                    }
+                    
                 }
             }
 

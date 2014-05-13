@@ -39,7 +39,7 @@
                 </MenuFlyout>
             </Button.Flyout>
         </Button>
-        <ListView x:Name="listviewSequences" ItemsSource="{Binding executionCollection}" SelectionMode="None" HorizontalAlignment="Left" Height="630" Margin="10,92,0,0" VerticalAlignment="Top" Width="501">
+        <ListView x:Name="listviewSequences" ItemsSource="{Binding executionCollection}" SelectionMode="None" HorizontalAlignment="Left" Height="630" Margin="41,92,0,0" VerticalAlignment="Top" Width="470">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel DoubleTapped="StackPanel_DoubleTapped">
@@ -48,9 +48,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Content="Run Sequence" HorizontalAlignment="Left" Margin="560,310,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.804,0.075"/>
-        <Button Content="Exit" HorizontalAlignment="Left" Margin="587,447,0,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="1.083,2.076"/>
+        <Button Content="Exit" HorizontalAlignment="Left" Margin="587,426,0,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="1.083,2.076" Width="66"/>
         <Button Content="Back" HorizontalAlignment="Left" Margin="587,377,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
-        <TextBlock x:Name="procedureTextBlock" HorizontalAlignment="Left" Margin="169,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="260"/>
+        <TextBlock x:Name="procedureTextBlock" FontSize="32" HorizontalAlignment="Left" Margin="169,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="260"/>
     </Grid>
 </Page>

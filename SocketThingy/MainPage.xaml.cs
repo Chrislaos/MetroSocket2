@@ -25,12 +25,12 @@ namespace SocketThingy
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+    /// </summary> 158.37.230.132
     public sealed partial class MainPage : Page
     {
         StreamSocket socket = new StreamSocket();
-        static HostName localHost = new HostName("158.37.233.3");
-        static HostName remoteHost = new HostName("158.37.230.147");
+        static HostName localHost = new HostName("158.37.230.132");
+        static HostName remoteHost = new HostName("158.37.230.139");
         static string socketString = "1337";
         PDU pdu2;
         
@@ -58,8 +58,9 @@ namespace SocketThingy
 
         public MainPage()
         {
+            
             this.InitializeComponent();
-
+            recievedMessage.Text = "Please login with valid username and password";
             
 
         }
@@ -160,40 +161,41 @@ namespace SocketThingy
 
         }
 
-        private async void Coonnect3_Click(object sender, RoutedEventArgs e)
+        
+        public async void nowConnecting()
         {
             bool connected = false;
             int remotePort = 1337;
             while (!connected)
             {
-                
+
                 try
                 {
                     EndpointPair connection = new EndpointPair(localHost, remotePort.ToString(), remoteHost, socketString);
                     await socket.ConnectAsync(connection);
                     connected = true;
-                    Coonnect3.IsEnabled = false;
-                    Coonnect3.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    
+                    recievedMessage.Text = "Welcome, you are now connected";
                 }
                 catch (Exception ex)
                 {
-                    
+
                     connected = false;
                     remotePort++;
                     recievedMessage.Text = "Changed to free port: " + remotePort;
-                    
+
                 }
             }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
             sendData();
         }
-
-        private void SendData_Click(object sender, RoutedEventArgs e)
+        private void loginUser()
         {
-            sendData();
+            if (usernameText.Text == "bacon" && passwordText.Password == "kake") { nowConnecting(); }
+            else { recievedMessage.Text = "Could not connect"; }
+        }
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            loginUser();
         }
         }
     }
