@@ -107,6 +107,7 @@
     <Compile Include="IProtocolCommands.cs" />
     <Compile Include="IProtocolMessages.cs" />
     <Compile Include="ListOfProcedures.cs" />
+    <Compile Include="Login.cs" />
     <Compile Include="PDU.cs" />
     <Compile Include="Procedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

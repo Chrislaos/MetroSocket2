@@ -29,19 +29,21 @@ namespace SocketThingy
     public sealed partial class MainPage : Page
     {
         StreamSocket socket = new StreamSocket();
-        static HostName localHost = new HostName("158.37.230.132");
-        static HostName remoteHost = new HostName("158.37.230.139");
+        static HostName localHost = new HostName("10.0.0.9");
+        static HostName remoteHost = new HostName("10.0.0.8");
         static string socketString = "1337";
         PDU pdu2;
+        public Login _user;
         
         PDU pdu = new PDU()
         {
             MessageID = (int)CommandMessageID.SendAllProcedures,
-            MessageDescription = "Server Please, load the sequencefile I specified as part of this message.",
+            MessageDescription = "Server Please, send me all the procedures.",
             MessageType = "Command",
             Source = "Demo.Client",
             Data = new JObject()
         };
+
         public static bool DEBUG = true;
 
         // StreamSocketListener tcpListener = new StreamSocketListener();
@@ -107,22 +109,18 @@ namespace SocketThingy
             catch (Exception e) { recievedMessage.Text = "Failed to cast incomming message to usable type: PDU"; }
         }
 
-        private async void sendData()
+        private async void sendData(PDU k)
         {
             var dr = new DataWriter(socket.OutputStream);
             
             //var len = dr.MeasureString(pdu.ToJson());
-            String message = pdu.ToJson();
+            String message = k.ToJson();
             //dr.WriteInt32((int)len);
-            dr.WriteString(pdu.ToJson());
+            dr.WriteString(k.ToJson());
             var ret = await dr.StoreAsync();
             
             recieveData();
-
-
             dr.DetachStream();
-          
-
             
         }
 
@@ -141,11 +139,6 @@ namespace SocketThingy
         }
 
 
-
-        
-
-
-
         private void ListViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             var MySP = sender as StackPanel;
@@ -158,8 +151,9 @@ namespace SocketThingy
 
         private void sendText_TextChanged(object sender, TextChangedEventArgs e)
         {
-
         }
+        
+
 
         
         public async void nowConnecting()
@@ -186,16 +180,43 @@ namespace SocketThingy
 
                 }
             }
-            sendData();
+            PDU authenticatePDU = new PDU()
+            {
+                MessageID = (int)CommandMessageID.LoginAttempt,
+                MessageDescription = "Server Please, check and authenticate this user",
+                MessageType = "Command",
+                Source = "Demo.Client",
+                Data = JObject.FromObject(_user)
+            };
+            sendData(authenticatePDU);
         }
         private void loginUser()
         {
-            if (usernameText.Text == "bacon" && passwordText.Password == "kake") { nowConnecting(); }
-            else { recievedMessage.Text = "Could not connect"; }
+            _user = new Login() { Username = usernameText.Text, Password = passwordText.Password };
+            try { nowConnecting();
+            }
+            catch(Exception e) { recievedMessage.Text = e.ToString(); }
         }
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             loginUser();
+        }
+
+        private void changeIPWindow(object sender, RoutedEventArgs e)
+        {
+            ipPopup.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            IPBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
+
+        private void IPChange_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                remoteHost = new HostName(IPText.Text);
+                ipPopup.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                IPBorder.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+            catch (Exception r) { IPrecieveMessage.Text = r.ToString(); }
         }
         }
     }
