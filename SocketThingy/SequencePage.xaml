@@ -15,6 +15,7 @@
                     <StackPanel>
                         <TextBlock Text="{Binding Name}"/>
                         <TextBlock Text="{Binding Description}"/>
+                        <TextBlock Text="{Binding Status}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -51,5 +52,6 @@
         <Button Content="Exit" HorizontalAlignment="Left" Margin="587,426,0,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="1.083,2.076" Width="66"/>
         <Button Content="Back" HorizontalAlignment="Left" Margin="587,377,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
         <TextBlock x:Name="procedureTextBlock" FontSize="32" HorizontalAlignment="Left" Margin="169,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="260"/>
+        <Button x:Name="Run" Content="Run" HorizontalAlignment="Left" Margin="587,318,0,0" VerticalAlignment="Top" Width="66" Click="Run_Click"/>
     </Grid>
 </Page>

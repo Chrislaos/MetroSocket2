@@ -14,6 +14,7 @@
         <Button x:Name="ExitButton" Content="EXIT" HorizontalAlignment="Left" Margin="405,404,0,0" VerticalAlignment="Top" Click="ExitButton_Click" Width="99" Height="38"/>
         <ScrollViewer HorizontalAlignment="Left" Height="630" Margin="582,70,0,0" VerticalAlignment="Top" Width="600" >
             <ListView x:Name="listviewTests" ItemsSource="{Binding kakecollection}" SelectionMode="None" BorderThickness="10" Height="630" Width="600" ItemContainerStyle="{StaticResource ListViewItemStyle1}">
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel DoubleTapped="ListViewItem_DoubleTapped">
@@ -47,13 +48,14 @@
                 <TextBlock x:Name="IPrecieveMessage" FontSize="22" HorizontalAlignment="Left" Margin="10,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="100" Width="314"/>
             </Grid>
         </Border>
-        <TextBox x:Name="usernameText" HorizontalAlignment="Left" Margin="200,358,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
+        
         <TextBlock HorizontalAlignment="Left" FontSize="22" Margin="58,358,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="103" RenderTransformOrigin="0.512,0.473">
         	<Run Text="Username"/>
         </TextBlock>
         <TextBlock HorizontalAlignment="Left" FontSize="22" Margin="58,407,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Height="32" Width="103"/>
         <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="405,355,0,0" VerticalAlignment="Top" Click="LoginButton_Click" Width="99" Height="38"/>
-        <PasswordBox x:Name="passwordText" HorizontalAlignment="Left" Margin="200,407,0,0" VerticalAlignment="Top" Width="180"/>
+        <TextBox x:Name="usernameText" HorizontalAlignment="Left" Margin="200,358,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Text="test"/>
+        <PasswordBox x:Name="passwordText" HorizontalAlignment="Left" Margin="200,407,0,0" VerticalAlignment="Top" Width="180" Password="bacon"/>
         <Popup/>
         <TextBlock x:Name="recievedMessage" FontSize="22" HorizontalAlignment="Left" Margin="116,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="155" Width="363"/>
 

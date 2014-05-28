@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using Demo.Protocol;
 using Windows.Storage.Streams;
 using System.Collections.ObjectModel;
+using Windows.Networking.Connectivity;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -29,13 +30,15 @@ namespace SocketThingy
     public sealed partial class MainPage : Page
     {
         StreamSocket socket = new StreamSocket();
-        static HostName localHost = new HostName("10.0.0.9");
-        static HostName remoteHost = new HostName("10.0.0.8");
+        static HostName localHost;
+        static HostName remoteHost = new HostName("198.168.1.123");
         static string socketString = "1337";
         PDU pdu2;
         public Login _user;
+        ListOfProcedures temp = new ListOfProcedures(false);
+        public Procedure tempProcedure = new Procedure(false);
         
-        PDU pdu = new PDU()
+        static PDU pdu = new PDU()
         {
             MessageID = (int)CommandMessageID.SendAllProcedures,
             MessageDescription = "Server Please, send me all the procedures.",
@@ -43,25 +46,45 @@ namespace SocketThingy
             Source = "Demo.Client",
             Data = new JObject()
         };
+        public void CurrentIPAddress()
+        {
+            ConnectionProfile profile = NetworkInformation.GetInternetConnectionProfile();
 
+            if (profile != null && profile.NetworkAdapter != null)
+            {
+                HostName hostname = getHostName(profile);
+
+                if (hostname != null)
+                {
+                    // the ip address
+                    localHost = new HostName(hostname.CanonicalName);
+                }
+            }
+        }
+
+        private HostName getHostName(ConnectionProfile profile)
+        {
+            HostName hostname = NetworkInformation.GetHostNames().SingleOrDefault(
+                            hn => (
+                                hn.IPInformation != null
+                                && hn.IPInformation.NetworkAdapter != null
+                                && hn.IPInformation.NetworkAdapter.NetworkAdapterId
+                                == profile.NetworkAdapter.NetworkAdapterId
+                            )
+            );
+
+            return hostname;
+        }
         public static bool DEBUG = true;
 
         // StreamSocketListener tcpListener = new StreamSocketListener();
         // private List<StreamSocket> _connections = new List<StreamSocket>();
-        private bool connecting = false;
-        private String recievedText;
-        public String RecievedText
-        {
-            get
-            {
-                return recievedText;
-            }
-        }
-
+        
         public MainPage()
         {
             
             this.InitializeComponent();
+            CurrentIPAddress();
             recievedMessage.Text = "Please login with valid username and password";
             
 
@@ -100,11 +123,13 @@ namespace SocketThingy
             try
             {
                 pdu2 = new PDU(msg);
-                ListOfProcedures temp = pdu2.Data.ToObject(typeof(ListOfProcedures));
+                temp = pdu2.Data.ToObject(typeof(ListOfProcedures));
                 foreach (Procedure pro in temp.ProcedureList)
                 {
                     _kakecollection.Add(pro);
                 }
+                LoginButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                LoginButton.IsEnabled = false;
             }
             catch (Exception e) { recievedMessage.Text = "Failed to cast incomming message to usable type: PDU"; }
         }
@@ -139,13 +164,21 @@ namespace SocketThingy
         }
 
 
-        private void ListViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        public void ListViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             var MySP = sender as StackPanel;
-            var MyTextBlock = MySP.Children[1] as TextBlock;
+            var MyTextBlock = MySP.Children[2] as TextBlock;
             string tempName = MyTextBlock.Text;
+            
+            foreach (Procedure pro in temp.ProcedureList)
+            {
+                if (pro.Description == tempName)
+                {
+                    tempProcedure = pro;
+                }
+            }
 
-            SequencePage Seq = new SequencePage(gridMainPage, tempName, pdu2);
+            SequencePage Seq = new SequencePage(gridMainPage, tempName, pdu2, tempProcedure, socket);
             gridMainPage.Children.Add(Seq);
         }
 
@@ -180,6 +213,7 @@ namespace SocketThingy
 
                 }
             }
+            
             PDU authenticatePDU = new PDU()
             {
                 MessageID = (int)CommandMessageID.LoginAttempt,

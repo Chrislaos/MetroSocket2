@@ -15,7 +15,8 @@ namespace Demo.Protocol
         PauseExecution = 1504,
         ResumeExecution = 1505,
         SendAllProcedures = 1601,
-        LoginAttempt = 1801
+        LoginAttempt = 1801,
+        ResetTS = 1901
     }
 
     public enum EventMessageID
